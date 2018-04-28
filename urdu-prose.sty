@@ -1,0 +1,38 @@
+% Style File for formatting Urdu Prose
+
+\ProvidesPackage{urdu-prose}[2016/07/05]
+
+
+% The geometry package, if used, must be the first package. We specify the four margins of the documents since the default values are too wide.
+\RequirePackage[top=1.25in,bottom=1.25in,left=1.00in,right=1.00in]{geometry}
+\RequirePackage{fancyhdr}           % Needs to be included before bidi
+
+% The fontspec package allows us to change the main font to Nafees Nastaleeq for Urdu type-setting.
+\RequirePackage{fontspec}
+
+% bidi stands for bi-directional and gives access to the \setRTL command which allows us to specify that the text will flow from Left to Right
+\RequirePackage{bidi}
+
+% Customize line spacing
+\RequirePackage{setspace}
+
+% We define our fancy page style here and activate it in the next 'pagestyle' command
+% We want a smaller size page number
+\fancypagestyle{plain}{
+    \fancyhf{}
+    \renewcommand{\headrulewidth}{0pt}
+    \cfoot{\scriptsize\thepage}
+}
+
+\pagestyle{plain}
+
+\setmainfont[Script=Arabic,Scale=2.0,WordSpace=72.0]{Jameel Noori Nastaleeq}         % Specify the main font. This must be installed in your system. Change the scale value to increase the default font size. Change the WordSpace value to increase the limit on inter-word spacing. This helps remove overfull warnings and the text exceeding the margin
+
+\setlength{\parindent}{0mm}          % Declare that every paragraph will NOT start indented
+\setlength{\hangindent}{0mm}         % Declare that every line after the first one will NOT be indented either
+
+\setlength{\parskip}{10mm plus8mm minus6mm}          % Increase space between successive paragraphs
+
+\setstretch{3}          % Increase line-spacing
+%\overfullrule{1mm}      % Used for debugging. Places a vertical line along-side every overfull line
+\setRTL                 % The text will flow from Right to Left
