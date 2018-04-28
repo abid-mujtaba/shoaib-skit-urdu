@@ -26,7 +26,11 @@
 
 \pagestyle{plain}
 
-\setmainfont[Script=Arabic,Scale=2.0,WordSpace=72.0]{Jameel Noori Nastaleeq}         % Specify the main font. This must be installed in your system. Change the scale value to increase the default font size. Change the WordSpace value to increase the limit on inter-word spacing. This helps remove overfull warnings and the text exceeding the margin
+\newfontfamily\urdufont[Script=Arabic,Scale=2.0,WordSpace=72.0]{Jameel Noori Nastaleeq}         % Define the urdu font. This must be installed in your system. Change the scale value to increase the default font size. Change the WordSpace value to increase the limit on inter-word spacing. This helps remove overfull warnings and the text exceeding the margin
+
+% \setmainfont[Script=Arabic,Scale=2.0,WordSpace=72.0]{Jameel Noori Nastaleeq}         % Specify the main font. This must be installed in your system. Change the scale value to increase the default font size. Change the WordSpace value to increase the limit on inter-word spacing. This helps remove overfull warnings and the text exceeding the margin
+
+\newcommand\englishfont{\fontfamily{lmr}\selectfont}
 
 \setlength{\parindent}{0mm}          % Declare that every paragraph will NOT start indented
 \setlength{\hangindent}{0mm}         % Declare that every line after the first one will NOT be indented either
