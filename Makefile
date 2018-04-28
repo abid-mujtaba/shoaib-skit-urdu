@@ -9,7 +9,7 @@ CONTINUOUS=
 
 
 MAIN=skit
-SOURCES=$(MAIN).tex Makefile
+SOURCES=$(MAIN).tex urdu-prose.sty Makefile
 
 
 all: show
