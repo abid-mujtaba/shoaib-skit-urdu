@@ -84,7 +84,7 @@ class Translate:
 	}
 
 
-	def __init__(self):
+	def __init__(self, fin):
 
 		# Reverse the e2u mapping to create the u2e mapping
 		self.u2e = {}
@@ -92,10 +92,14 @@ class Translate:
 		for k in self.e2u:
 			self.u2e[ self.e2u[k] ] = k
 
+		# Retrieve the text from the input file and remove extraneous '\n' from the end of each line
+		self.lines = [x.rstrip() for x in fin.readlines()]
+
 
 	def urdu_to_english(self):
 
-		print("Translate from urdu to english")
+		for line in self.lines:
+			print(line)
 
 
 
@@ -106,13 +110,12 @@ class Translate:
 @click.option('--urdu-to-english', '-u', is_flag=True)		# Optional Flag which decides if we are translating from urdu to english
 def main(file, **kwargs):
 
-	t = Translate()
+	with open(file) as fin:
 
-	print(file)
-	print(kwargs)
+		t = Translate(fin)
 
-	if kwargs['urdu_to_english']:			# The options passed are stored in the 'kwargs' dictionary received by this function ('main')
-		t.urdu_to_english()
+		if kwargs['urdu_to_english']:			# The options passed are stored in the 'kwargs' dictionary received by this function ('main')
+			t.urdu_to_english()
 
 
 if __name__ == '__main__':
