@@ -40,4 +40,8 @@
 \setstretch{3}          % Increase line-spacing
 %\overfullrule{1mm}      % Used for debugging. Places a vertical line along-side every overfull line
 
+% Issue \startUrdu to start RTL and use of the urdu font
 \newcommand\startUrdu{\setRTL\urdufont}
+
+% Create a short command for in-line English text inside urdu sentences. \Large makes the english text comparable in size to the scaled-up Urdu text
+\newcommand\en[1]{\LR{\englishfont \Large #1}}
