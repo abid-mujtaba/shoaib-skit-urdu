@@ -8,7 +8,7 @@ import click
 
 
 class Translate:
-
+	
 	# Define the map between english and urdu characters (the latter defined using their Unicode code-points)
 	# The Urdu characters are easily identifiable as their unicode point starts with 06 i.e. \u06XX
 
@@ -93,13 +93,26 @@ class Translate:
 			self.u2e[ self.e2u[k] ] = k
 
 
+	def urdu_to_english(self):
 
-def main():
+		print("Translate from urdu to english")
+
+
+
+# We use click to access the arguments, commands and flags
+
+@click.command()			# Essential to get click working
+@click.argument('file')		# Declare a mandatory argument which will be the input file
+@click.option('--urdu-to-english', '-u', is_flag=True)		# Optional Flag which decides if we are translating from urdu to english
+def main(file, **kwargs):
 
 	t = Translate()
 
-	print(t.e2u)
-	print(t.u2e)
+	print(file)
+	print(kwargs)
+
+	if kwargs['urdu_to_english']:			# The options passed are stored in the 'kwargs' dictionary received by this function ('main')
+		t.urdu_to_english()
 
 
 if __name__ == '__main__':
