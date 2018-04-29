@@ -78,9 +78,18 @@ e2u = {
 	'?': u'\u061f',
 }
 
+# Reverse the mapping
+u2e = {}
+
+for k in e2u:
+	u2e[ e2u[k] ] = k
+
+
+
 def main():
 
-	print("Hello, World")
+	print(e2u)
+	print(u2e)
 
 
 if __name__ == '__main__':
