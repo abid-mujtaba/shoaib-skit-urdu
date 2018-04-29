@@ -5,8 +5,10 @@
 """
 
 # Define the map between english and urdu characters (the latter defined using their Unicode code-points)
+# The Urdu characters are easily identifiable as their unicode point starts with 06 i.e. \u06XX
 
 e2u = {
+	# Lower-case mappings
 	1: f1,
 	2: f2,
 	3: f3,
@@ -46,6 +48,34 @@ e2u = {
 	.: d4,
 	p: 7e,
 	;: 1b,
+
+	# Upper-case (Shift-ed) mapping
+	~: 4b,
+	Q: 52,
+	A: 22,
+	Z: 30,
+	W: 51,
+	S: 35,
+	X: 98,
+	E: 70,
+	D: 88,
+	C: 2b,
+	R: 91,
+	V: 38,
+	T: 79,
+	G: 3a,
+	Y: 4e,
+	H: be,
+	N: ba,
+	U: 26,
+	J: 36,
+	M: 58,
+	I: 50,
+	K: 2e,
+	O: c3,
+	>: 6b,
+	P: 4f,
+	?: 1f,
 }
 
 def main():
