@@ -92,14 +92,37 @@ class Translate:
 		for k in self.e2u:
 			self.u2e[ self.e2u[k] ] = k
 
+		# Create list of mapped characters in both languages
+		self.en = [k for k in self.e2u]
+		self.ur = [k for k in self.u2e]
+
 		# Retrieve the text from the input file and remove extraneous '\n' from the end of each line
 		self.lines = [x.rstrip() for x in fin.readlines()]
+
+
+	def mu2e(self, char):
+		"""
+		Convert the urdu character to english. A non-urdu character is preserved.
+		"""
+		
+		try:
+			return self.u2e[char]
+		
+		except KeyError:
+			return char
 
 
 	def urdu_to_english(self):
 
 		for line in self.lines:
-			print(line)
+
+			s = ""
+
+			for c in line:
+				s += self.mu2e(c)
+
+			print(s)
+
 
 
 
