@@ -208,7 +208,49 @@ class Translate:
 
 				else:			# We are NOT in the 'enpara' environment
 
+					i = 0
 					s = ''
+					os = ''
+
+					while i < len(line):
+						
+						c = line[i]
+
+						if c in ['\\', '{']:		# A macro has begun
+
+							if line[i + 1] == "\\":		# Double slash at end of line
+								os += "\\"
+								i += 2
+								continue
+
+							END = " "
+
+							os += self.convert_string(self.me2u, s)
+							s = ''
+
+							while c != END:
+
+								if c == '{':		# If the macro contains an argument in { } we have to stop at '}' rather than a space
+									END = '}'
+
+								s += c
+								i += 1
+								c = line[i]
+
+							i += 1
+							os += s + c
+							s = ''
+							continue
+
+						s += c
+						i += 1
+
+					os += self.convert_string(self.me2u, s)
+
+					print(os)
+
+					
+							
 
 
 
