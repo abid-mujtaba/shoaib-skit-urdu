@@ -129,6 +129,19 @@ class Translate:
 		except KeyError:
 			return char
 
+
+	def convert_string(self, converter, string):
+		"""
+		Convert the specified 'string' using the 'converter' and return it.
+		"""
+
+		s = ""
+
+		for c in string:
+			s += converter(c)
+
+		return s
+
 	
 	def convert(self, converter):
 		"""
@@ -137,12 +150,7 @@ class Translate:
 
 		for line in self.lines:
 
-			s = ""
-
-			for c in line:
-				s += converter(c)
-
-			print(s)
+			print(self.convert_string(converter, line))
 
 
 	def urdu_to_english(self):
@@ -201,8 +209,6 @@ class Translate:
 
 				else:			# We are NOT in the 'enpara' environment
 
-					pass
-					print(line)
 					s = ''
 
 
