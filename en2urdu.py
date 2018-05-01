@@ -159,8 +159,9 @@ class Translate:
 
 @click.command()			# Essential to get click working
 @click.argument('file')		# Declare a mandatory argument which will be the input file
-@click.option('--urdu-to-english', '-u', is_flag=True)		# Optional Flag which decides if we are translating from urdu to english
-@click.option('--english-to-urdu', '-e', is_flag=True)
+@click.option('--urdu-to-english', '-u', is_flag=True, help="Convert all Urdu characters to English")		# Optional Flag which decides if we are translating from urdu to english
+@click.option('--english-to-urdu', '-e', is_flag=True, help="Convert all English characters to Urdu")
+@click.option('--latex', '-l', is_flag=True, help="Convert Urdu characters in LaTeX file to English while preserving LaTeX commands and text wrapped in \en{}")
 def main(file, **kwargs):
 
 	with open(file) as fin:
