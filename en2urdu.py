@@ -9,8 +9,8 @@ import re
 
 
 START = re.compile(r".*startUrdu.*", re.IGNORECASE)
-BEGINPARA = re.compile(r"^\begin{enpara}")
-ENDPARA = re.compile(r"^\end{enpara}")
+BEGINPARA = re.compile(r"^\\begin{enpara}")
+ENDPARA = re.compile(r"^\\end{enpara}")
 
 
 class Translate:
@@ -174,7 +174,7 @@ class Translate:
 		Convert urdu characters to english in a LaTeX file while preserving LaTeX commands and any text wrapped in \en{}.
 		"""
 
-		fEnPara = True
+		fEnPara = False
 
 		# We start by ignoring all the lines before \startUrdu (or '% startUrdu')
 		count = 0
@@ -182,11 +182,10 @@ class Translate:
 		for line in self.lines:
 
 			count += 1
+			print(line)
 
 			if START.match(line):
 				break
-			else:
-				print(line)
 
 		for i in range(count, len(self.lines)):
 			
@@ -202,7 +201,7 @@ class Translate:
 
 			else:
 
-				if STARTPARA.match(line):			# 'enpara' environment is beginning
+				if BEGINPARA.match(line):			# 'enpara' environment is beginning
 
 					fEnPara = True
 					print(line)
