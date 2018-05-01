@@ -9,6 +9,8 @@ import re
 
 
 START = re.compile(r".*startUrdu.*", re.IGNORECASE)
+BEGINPARA = re.compile(r"^\begin{enpara}")
+ENDPARA = re.compile(r"^\end{enpara}")
 
 
 class Translate:
@@ -159,11 +161,14 @@ class Translate:
 		self.convert(self.me2u)
 
 
-	def calc_urdu_start(self):
+	def latex(self):
 		"""
-		Return index of first line after 'startUrdu' marker in latex file.
+		Convert urdu characters to english in a LaTeX file while preserving LaTeX commands and any text wrapped in \en{}.
 		"""
 
+		fEnPara = True
+
+		# We start by ignoring all the lines before \startUrdu (or '% startUrdu')
 		count = 0
 
 		for line in self.lines:
@@ -172,16 +177,35 @@ class Translate:
 
 			if START.match(line):
 				break
+			else:
+				print(line)
 
-		return count
+		for i in range(count, len(self.lines)):
+			
+			line = self.lines[i]
+
+			if fEnPara:			# If we are in the middle of an 'enpara' environment we should not translate
+				
+				print(line)
+
+				if ENDPARA.match(line):
+
+					fEnPara = False
+
+			else:
+
+				if STARTPARA.match(line):			# 'enpara' environment is beginning
+
+					fEnPara = True
+					print(line)
+
+				else:			# We are NOT in the 'enpara' environment
+
+					pass
+					print(line)
+					s = ''
 
 
-	def latex(self):
-		"""
-		Convert urdu characters to english in a LaTeX file while preserving LaTeX commands and any text wrapped in \en{}.
-		"""
-
-		print(self.calc_urdu_start())
 
 
 # We use click to access the arguments, commands and flags
