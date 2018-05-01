@@ -209,26 +209,26 @@ class Translate:
 				else:			# We are NOT in the 'enpara' environment
 
 					i = 0
-					s = ''
-					os = ''
+					s = ''		# Substrings
+					os = ''		# Final translation of whole line to be printed
 
-					while i < len(line):
+					while i < len(line):		# Iterate over all chracters
 						
 						c = line[i]
 
 						if c in ['\\', '{']:		# A macro has begun
 
-							if line[i + 1] == "\\":		# Double slash at end of line
+							if line[i + 1] == "\\":		# Double slash at end of line, just render it as is,
 								os += "\\"
 								i += 2
 								continue
 
-							END = " "
+							END = " "		# We expect a \ started macro to end with a space (if it has NO arguments)
 
-							os += self.convert_string(self.me2u, s)
-							s = ''
+							os += self.convert_string(self.me2u, s)		# Dump the substring collected so far (translated) before we handle the macro
+							s = ''										# Substring for macro itself
 
-							while c != END:
+							while c != END:			# Loop until the macro ends
 
 								if c == '{':		# If the macro contains an argument in { } we have to stop at '}' rather than a space
 									END = '}'
@@ -242,10 +242,10 @@ class Translate:
 							s = ''
 							continue
 
-						s += c
+						s += c		# No macro detected so we keep appending characters to 's'
 						i += 1
 
-					os += self.convert_string(self.me2u, s)
+					os += self.convert_string(self.me2u, s)			# Append the translated final substring to 'os' for printing in one go
 
 					print(os)
 
