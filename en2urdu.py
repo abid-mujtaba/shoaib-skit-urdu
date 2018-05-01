@@ -112,18 +112,27 @@ class Translate:
 			return char
 
 
-	def urdu_to_english(self):
+	def convert(self, converter):
+		"""
+		Convert characters in lines using the function provided in 'converter'
+		"""
 
 		for line in self.lines:
 
 			s = ""
 
 			for c in line:
-				s += self.mu2e(c)
+				s += converter(c)
 
 			print(s)
 
 
+	def urdu_to_english(self):
+		"""
+		Convert urdu characters to english.
+		"""
+
+		self.convert(self.mu2e)
 
 
 # We use click to access the arguments, commands and flags
