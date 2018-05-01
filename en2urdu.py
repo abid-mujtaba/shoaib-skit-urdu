@@ -5,6 +5,10 @@
 """
 
 import click
+import re
+
+
+START = re.compile(r".*startUrdu.*", re.IGNORECASE)
 
 
 class Translate:
@@ -155,12 +159,29 @@ class Translate:
 		self.convert(self.me2u)
 
 
+	def calc_urdu_start(self):
+		"""
+		Return index of first line after 'startUrdu' marker in latex file.
+		"""
+
+		count = 0
+
+		for line in self.lines:
+
+			count += 1
+
+			if START.match(line):
+				break
+
+		return count
+
+
 	def latex(self):
 		"""
 		Convert urdu characters to english in a LaTeX file while preserving LaTeX commands and any text wrapped in \en{}.
 		"""
 
-		pass
+		print(self.calc_urdu_start())
 
 
 # We use click to access the arguments, commands and flags
