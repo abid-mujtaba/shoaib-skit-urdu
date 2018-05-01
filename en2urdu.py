@@ -155,6 +155,14 @@ class Translate:
 		self.convert(self.me2u)
 
 
+	def latex(self):
+		"""
+		Convert urdu characters to english in a LaTeX file while preserving LaTeX commands and any text wrapped in \en{}.
+		"""
+
+		pass
+
+
 # We use click to access the arguments, commands and flags
 
 @click.command()			# Essential to get click working
@@ -173,6 +181,12 @@ def main(file, **kwargs):
 
 		elif kwargs['english_to_urdu']:
 			t.english_to_urdu()
+
+		elif kwargs['latex']:
+			t.latex()
+
+		else:
+			print("Missing conversion flag. See --help.")
 
 
 if __name__ == '__main__':
