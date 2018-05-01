@@ -112,6 +112,18 @@ class Translate:
 			return char
 
 
+	def me2u(self, char):
+		"""
+		Convert the english character to urdu. A non-english character is preserved.
+		"""
+
+		try:
+			return self.e2u[char]
+
+		except KeyError:
+			return char
+
+	
 	def convert(self, converter):
 		"""
 		Convert characters in lines using the function provided in 'converter'
@@ -135,11 +147,20 @@ class Translate:
 		self.convert(self.mu2e)
 
 
+	def english_to_urdu(self):
+		"""
+		Convert ALL english characters to urdu.
+		"""
+
+		self.convert(self.me2u)
+
+
 # We use click to access the arguments, commands and flags
 
 @click.command()			# Essential to get click working
 @click.argument('file')		# Declare a mandatory argument which will be the input file
 @click.option('--urdu-to-english', '-u', is_flag=True)		# Optional Flag which decides if we are translating from urdu to english
+@click.option('--english-to-urdu', '-e', is_flag=True)
 def main(file, **kwargs):
 
 	with open(file) as fin:
@@ -148,6 +169,9 @@ def main(file, **kwargs):
 
 		if kwargs['urdu_to_english']:			# The options passed are stored in the 'kwargs' dictionary received by this function ('main')
 			t.urdu_to_english()
+
+		elif kwargs['english_to_urdu']:
+			t.english_to_urdu()
 
 
 if __name__ == '__main__':
