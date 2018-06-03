@@ -6,6 +6,7 @@
 
 import click
 import re
+import sys
 
 
 START = re.compile(r".*startUrdu.*", re.IGNORECASE)
@@ -13,7 +14,18 @@ BEGINPARA = re.compile(r"^\\begin{enpara}")
 ENDPARA = re.compile(r"^\\end{enpara}")
 
 
+def eprint(*args, **kwargs):
+	"""
+	Utility function for printing to stderr.
+	"""
+	print(*args, file=sys.stderr, **kwargs)
+
+
 class Translate:
+
+	# Define the macro names that are considered "urdu macros" meaning there contents SHOULD be translated.
+	urdu_macros = ['dialog']
+
 	
 	# Define the map between english and urdu characters (the latter defined using their Unicode code-points)
 	# The Urdu characters are easily identifiable as their unicode point starts with 06 i.e. \u06XX
@@ -171,7 +183,7 @@ class Translate:
 
 	def latex(self):
 		"""
-		Convert urdu characters to english in a LaTeX file while preserving LaTeX commands and any text wrapped in \en{}.
+		Convert urdu characters to english in a LaTeX file while preserving LaTeX commands, all lines inside the 'enpara' environment, and any text inside any macro EXCEPT those declared in self.urdu_macros.
 		"""
 
 		fEnPara = False
@@ -206,53 +218,71 @@ class Translate:
 					fEnPara = True
 					print(line)
 
-				else:			# We are NOT in the 'enpara' environment
+				else:			# We are NOT in the 'enpara' environment. We must parse the line carefully by treating it as nested strings
 
-					i = 0
-					s = ''		# Substrings
-					os = ''		# Final translation of whole line to be printed
-
-					while i < len(line):		# Iterate over all chracters
-						
-						c = line[i]
-
-						if c in ['\\', '{']:		# A macro has begun
-
-							if line[i + 1] == "\\":		# Double slash at end of line, just render it as is,
-								os += "\\"
-								i += 2
-								continue
-
-							END = " "		# We expect a \ started macro to end with a space (if it has NO arguments)
-
-							os += self.convert_string(self.me2u, s)		# Dump the substring collected so far (translated) before we handle the macro
-							s = ''										# Substring for macro itself
-
-							while c != END:			# Loop until the macro ends
-
-								if c == '{':		# If the macro contains an argument in { } we have to stop at '}' rather than a space
-									END = '}'
-
-								s += c
-								i += 1
-								c = line[i]
-
-							i += 1
-							os += s + c
-							s = ''
-							continue
-
-						s += c		# No macro detected so we keep appending characters to 's'
-						i += 1
-
-					os += self.convert_string(self.me2u, s)			# Append the translated final substring to 'os' for printing in one go
-
-					print(os)
-
-					
-							
+					print(self.e2u_substr(line))
 
 
+	def e2u_substr(self, line):
+		"""
+		Convert substring from English to Urdu. Designed to make heavy use of recursion.
+		"""
+
+		if len(line) == 0:		# Deal with the possibility of an empty line
+			return line
+
+
+		c = line[0]		# Start with the first character in the line
+
+		if c != '\\':
+			return self.me2u(c) + self.e2u_substr(line[1:])		# convert character and pass remaining string recursively to this function
+
+		# If execution arrives here it means the first character is '\'
+		if line[1] == "\\":		# Double slash, just render it as is,
+
+			return "\\" + self.e2u_substr(line[2:])		# Use recursion to relegate conversion of the remaining string
+
+		# We have a macro to deal with. We must figure out what type of macro is it:
+		# 
+		# 1. Hanging: \itshape ends in a space
+		# 2. Arguments (possibly more than one): \en{} or \rule{\textwdith}{0pt}
+
+		# We will find the end of this macro
+		j = 1
+
+		try:
+			while line[j] not in ['{', ' ']:
+				j += 1
+
+			if line[j] == ' ':		# Hanging macro (e.g. \itshape)
+				return line[:j] + self.e2u_substr(line[j:])
+
+			# Macro has an opening brace.
+			macro = line[1:j]
+
+			# First we figure if it is a urdu macro that is a macro that is allowed to contain urdu text
+			if macro in self.urdu_macros:
+				return line[:j] + self.e2u_substr(line[j:])			# If it is an urdu macro we return the macro and pass the rest on for conversion
+
+			# We now find the end of the (Non-Urdu) macro (including its argument)
+			k = j + 1
+
+			fArg = True
+
+			while fArg:
+				while line[k] != '}':
+					k += 1
+
+				if k + 1 != len(line) and line[k + 1] == '{':		# We deal with the possibility of the macro ending the line or multiple arguments {...} of the macro
+					k += 1
+				else:
+					fArg = False			# Arguments complete we can leave this macro
+
+			return line[:k] + self.e2u_substr(line[k:])		# Copy the entire macro (including arguments) untranslated and translate from there-on
+
+		except IndexError as e:
+			eprint("ERROR - End of string arrived before macro ended")
+			raise e
 
 
 # We use click to access the arguments, commands and flags
