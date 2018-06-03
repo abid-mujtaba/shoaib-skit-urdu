@@ -6,11 +6,19 @@
 
 import click
 import re
+import sys
 
 
 START = re.compile(r".*startUrdu.*", re.IGNORECASE)
 BEGINPARA = re.compile(r"^\\begin{enpara}")
 ENDPARA = re.compile(r"^\\end{enpara}")
+
+
+def eprint(*args, **kwargs):
+	"""
+	Utility function for printing to stderr.
+	"""
+	print(*args, file=sys.stderr, **kwargs)
 
 
 class Translate:
