@@ -24,7 +24,7 @@ def eprint(*args, **kwargs):
 class Translate:
 
 	# Define the macro names that are considered "urdu macros" meaning there contents SHOULD be translated.
-	urdu_macros = ['dialog']
+	urdu_macros = ['dialog', 'idialog']
 
 	
 	# Define the map between english and urdu characters (the latter defined using their Unicode code-points)
