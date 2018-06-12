@@ -251,11 +251,14 @@ class Translate:
 		j = 1
 
 		try:
-			while line[j] not in ['{', ' ']:
+			while j + 1 < len(line) and line[j] not in ['{', ' ']:
 				j += 1
 
 			if line[j] == ' ':		# Hanging macro (e.g. \itshape)
 				return line[:j] + self.e2u_substr(line[j:])
+
+			if j + 1 == len(line):
+			        return line[:j + 1]
 
 			# Macro has an opening brace.
 			macro = line[1:j]
