@@ -292,8 +292,8 @@ class Translate:
 			return line[:k] + self.e2u_substr(line[k:])		# Copy the entire macro (including arguments) untranslated and translate from there-on
 
 		except IndexError as e:
-			eprint("ERROR - End of string arrived before macro ended")
-			raise e
+		    eprint("ERROR - End of string arrived before macro ended - line: " + line)
+		    raise e
 
 
 # We use click to access the arguments, commands and flags
