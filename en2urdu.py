@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 
 """
-	This is a utility for converting english characters to their equivalent urdu characters as defined by the CRULP Urdu Keyboard Layout v1.1 (and vice versa).
+This is a utility for converting english characters to their equivalent urdu characters as defined by the CRULP Urdu Keyboard Layout v1.1 (and vice versa).
 """
 
 import click
@@ -102,7 +102,7 @@ class Translate:
 	}
 
 
-	def __init__(self, fin):
+	def __init__(self):
 
 		# Reverse the e2u mapping to create the u2e mapping
 		self.u2e = {}
