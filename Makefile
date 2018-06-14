@@ -1,5 +1,5 @@
 LATEX=xelatex
-LATEXOPT=--shell-escape
+LATEXOPT=--shell-escape --halt-on-error
 NONSTOP=--interaction=nonstopmode
 
 LATEXMK=latexmk
