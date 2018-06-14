@@ -62,6 +62,16 @@ class TestUrduMacros(unittest.TestCase):
         self.assertEqual(f('\dialog{xeib}{Adab}'), '\dialog{شعیب}{آداب}')
 
 
+    def test_urdu_macro_with_options(self):
+        """
+        Test a line containing an urdu macro WITH an optional argument (in square brackets)
+        """
+
+        f = self.f
+        self.assertEqual(f('\dialog[3.5em]{xeib}{Adab}'), '\dialog[3.5em]{شعیب}{آداب}')
+
+
+
 if __name__ == '__main__':
 
     unittest.main()
