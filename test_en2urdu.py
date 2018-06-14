@@ -27,10 +27,18 @@ class Testu2e(unittest.TestCase):
 
         f = self.t.mu2e
 
+        self.assertEqual(f('ا'), 'a')
+        self.assertEqual(f('پ'), 'p')
+        self.assertEqual(f('گ'), 'g')
+
 
     def test_urdu_characters_uppercase(self):
 
         f = self.t.mu2e
+
+        self.assertEqual(f('آ'), 'A')
+        self.assertEqual(f('ٹ'), 'T')
+        self.assertEqual(f('ں'), 'N')
 
 
 
