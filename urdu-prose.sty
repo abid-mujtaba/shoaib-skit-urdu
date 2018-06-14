@@ -52,7 +52,8 @@
 
 % A dialog command which takes one optional parameter (the width of the first colum) and two arguments: the name of the speaker, and their speech
 % Notice how #1 is given a default value (2.5em). If it needs to be changed it must be called as \idialog[<new-width>]{}{}
-\newcommand\dialog[3][2.5em]{\begin{tabular}{p{#1}p{0.8\textwidth}}#2 : & #3\end{tabular}}
+% Notice how \dimexpr ... \relax is used to carry out length arithmetic to ensure the text stays within bounds
+\newcommand\dialog[3][2.5em]{\begin{tabular}{p{#1}p{\dimexpr\textwidth - #1 - 1em\relax}}#2 : & #3\end{tabular}}
 
 % A dialog macro for when the dialog is inside an itemize environment
 \newcommand\idialog[3][2.5em]{\item[] \dialog[#1]{#2}{#3}}
