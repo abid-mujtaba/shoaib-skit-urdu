@@ -12,12 +12,12 @@ class Testu2e(unittest.TestCase):
         Create a Translate object for testing
         """
         self.t = en2urdu.Translate()
+        self.f = self.t.mu2e
 
 
     def test_non_urdu_characters(self):
 
-        f = self.t.mu2e
-
+        f = self.f
         self.assertEqual(f('{'), '{')
         self.assertEqual(f('['), '[')
         self.assertEqual(f('\\'), '\\')
@@ -25,8 +25,7 @@ class Testu2e(unittest.TestCase):
 
     def test_urdu_characters_lowercase(self):
 
-        f = self.t.mu2e
-
+        f = self.f
         self.assertEqual(f('ا'), 'a')
         self.assertEqual(f('پ'), 'p')
         self.assertEqual(f('گ'), 'g')
@@ -34,12 +33,33 @@ class Testu2e(unittest.TestCase):
 
     def test_urdu_characters_uppercase(self):
 
-        f = self.t.mu2e
-
+        f = self.f
         self.assertEqual(f('آ'), 'A')
         self.assertEqual(f('ٹ'), 'T')
         self.assertEqual(f('ں'), 'N')
 
+
+
+class TestUrduMacros(unittest.TestCase):
+    """
+    Test translation of lines involving urdu macros ('dialog' and 'idialog')
+    """
+
+    def setUp(self):
+        """
+        Create a Translate object for testing
+        """
+        self.t = en2urdu.Translate()
+        self.f = self.t.e2u_substr
+
+
+    def test_urdu_macro_without_optional(self):
+        """
+        Test a line containing an urdu macro WITHOUT an optional argument (in square brackets)
+        """
+
+        f = self.f
+        self.assertEqual(f('\dialog{xeib}{Adab}'), '\dialog{شعیب}{آداب}')
 
 
 if __name__ == '__main__':
