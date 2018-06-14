@@ -114,8 +114,13 @@ class Translate:
 		self.en = [k for k in self.e2u]
 		self.ur = [k for k in self.u2e]
 
-		# Retrieve the text from the input file and remove extraneous '\n' from the end of each line
-		self.lines = [x.rstrip() for x in fin.readlines()]
+	
+	def read(self, fin):
+	    """
+	    Read in the lines from the specified file
+	    """
+	    # Retrieve the text from the input file and remove extraneous '\n' from the end of each line
+	    self.lines = [x.rstrip() for x in fin.readlines()]
 
 
 	def mu2e(self, char):
@@ -258,7 +263,7 @@ class Translate:
 				return line[:j] + self.e2u_substr(line[j:])
 
 			if j + 1 == len(line):
-			        return line[:j + 1]
+				return line[:j + 1]
 
 			# Macro has an opening brace.
 			macro = line[1:j]
@@ -299,7 +304,8 @@ def main(file, **kwargs):
 
 	with open(file) as fin:
 
-		t = Translate(fin)
+		t = Translate()	    # Create Translate object
+		t.read(fin)	    # Pass in file stream to enable translation
 
 		if kwargs['urdu_to_english']:			# The options passed are stored in the 'kwargs' dictionary received by this function ('main')
 			t.urdu_to_english()
