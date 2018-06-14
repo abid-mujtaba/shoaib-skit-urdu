@@ -268,6 +268,9 @@ class Translate:
 			# Macro has an opening brace.
 			macro = line[1:j]
 
+			if '[' in macro:        # Macro contains an optional argument which has been attached to the macro name. We must extract the latter
+			    macro = macro[:macro.index('[')]        # Extract substring up to position of first '[' character
+
 			# First we figure if it is a urdu macro that is a macro that is allowed to contain urdu text
 			if macro in self.urdu_macros:
 				return line[:j] + self.e2u_substr(line[j:])			# If it is an urdu macro we return the macro and pass the rest on for conversion
