@@ -3,6 +3,16 @@
 \usepackage{urdu-prose}
 \usepackage{enumerate}
 
+% Increse size of page number in bottom
+\usepackage{fancyhdr}
+\fancypagestyle{plain}{%
+	\fancyhf{}
+	\fancyfoot[C]{\LARGE\thepage}
+	\renewcommand{\headrulewidth}{0pt}
+	\renewcommand{\footrulewidth}{0pt}
+}
+\pagestyle{plain}
+
 % A macro for placing italicizes English intructions on the left
 \newcommand{\instr}[1]{\vm\hfill\en{\itshape #1}}
 
