@@ -39,6 +39,13 @@ class Testu2e(unittest.TestCase):
         self.assertEqual(f('ں'), 'N')
 
 
+    def test_keyerror_for_non_urdu_characters(self):
+
+        with self.assertRaises(KeyError):
+
+            self.t.u2e['f']     # Since 'f' is a non-urdu character it is not in the 'u2e' dictionary and so this should raise a KeyError which we assert for
+
+
 
 class TestUrduMacros(unittest.TestCase):
     """
